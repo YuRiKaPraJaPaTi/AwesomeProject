@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 
@@ -11,7 +11,7 @@ type Props = {
 const SocialIcon = ({ source, onPress, size = 40 }: Props) => {
   return (
     <TouchableOpacity onPress={onPress} >
-      <View style={[styles.imgsize, { width: size, height: size }]}>
+      <View style={styles.imgsize}>
         <Image source={source} style={{ width: size, height: size }} resizeMode="contain" />
       </View>
     </TouchableOpacity>
@@ -23,8 +23,6 @@ const SocialIcon = ({ source, onPress, size = 40 }: Props) => {
 export default SocialIcon
 
 const styles = StyleSheet.create({
-
-
   imgsize: {
       height: 30,
       width: 30,

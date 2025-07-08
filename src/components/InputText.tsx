@@ -1,28 +1,46 @@
-import { StyleSheet, TextInput, View, Image } from 'react-native'
+import { StyleSheet, TextInput, View, Image, TouchableOpacity, Text } from 'react-native'
 import React from 'react'
 
+interface props {
+  iconSource: any;
+  placeholder: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  secureTextEntry?: boolean;
+  onIconPress?: () => void;
+}
 
-
-const InputText = ({iconSource, placeholder}:{iconSource:any, placeholder:string}) => {
+const InputText = ({iconSource, placeholder, value, onChangeText, secureTextEntry, onIconPress}:props) => {
   return (
     <View style={styles.inputContainer}>
-                            {/* <Icon name = "mail-outline" size={25} style={styles.icon} /> */}
-                            <Image
-                            style={styles.icon}
-                            resizeMode="contain" 
-                            source={iconSource}
-                      />
-                            <TextInput  style={styles.input}
-                            placeholder={placeholder}
-                            />
-                      </View>
+      {/* <Icon name = "mail-outline" size={25} style={styles.icon} /> */}
+        <Image
+          style={styles.icon}
+          resizeMode="contain" 
+          source={iconSource}
+          />
+          <TextInput  style={styles.input}
+              placeholder={placeholder}
+              value={value}
+              onChangeText={onChangeText}
+              secureTextEntry={secureTextEntry}
+          />
+                  
+          {secureTextEntry !== undefined && (
+            <TouchableOpacity onPress={onIconPress} >
+              <Text >
+                {secureTextEntry ? 'Show' : 'Hide'}
+              </Text>
+            </TouchableOpacity>
+      )}
+    </View>
   )
 }
 
 export default InputText
 
 const styles = StyleSheet.create({
-      inputContainer: {
+    inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
