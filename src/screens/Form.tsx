@@ -3,8 +3,13 @@ import Icon from 'react-native-vector-icons';
 
 import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import { SafeAreaView } from 'react-native';
-import SocialIcon from './SocialIcon';
-import InputText from './InputText';
+import SocialIcon from '../components/SocialIcon';
+import InputText from '../components/InputText';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/AppNavigator';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+type FormNavigationProps = NativeStackNavigationProp<RootStackParamList, 'Form'>;
 
 const Form = () => {
       const [isLogin, setIsLogin] = useState(true)
@@ -12,6 +17,8 @@ const Form = () => {
       const [email, setEmail] = useState('');
       const [password, setPassword] = useState('');
       const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+      const navigation = useNavigation<FormNavigationProps>();
 
       const handleToggle = () => {
             setIsLogin(!isLogin);
@@ -31,9 +38,17 @@ const Form = () => {
             console.log('Email:', email);
             console.log('Password:', password);
 
+            if (isLogin) {
+                  navigation.navigate('Todo')
+            }
+            else {
+                  setIsLogin(true)
+            }
+
             setUsername('');
             setEmail('');
-            setPassword('');
+            setPassword(''); 
+            
 
       };
 
@@ -41,6 +56,13 @@ const Form = () => {
             <SafeAreaView style={styles.container}>
 
                   <View style={styles.main}>
+                         <TouchableOpacity>
+                              <SocialIcon 
+                                    source={require('../../assets/left-chevron.png')}
+                                    size={20}
+                                    onPress={()=>navigation.goBack()}
+                              />
+                         </TouchableOpacity>
 
                         <Text style={styles.title}>{isLogin ? 'LogIn' : 'Sign Up'}</Text>
 
@@ -59,14 +81,14 @@ const Form = () => {
                         />
 
                         <InputText
-                              iconSource={require('../../assets/email.jpg')}
+                              iconSource={require('../../assets/email.png')}
                               placeholder="email"
                               value={email}
                               onChangeText={setEmail}
                         />
 
                         <InputText
-                              iconSource={require('../../assets/password.jpg')}
+                              iconSource={require('../../assets/password.png')}
                               placeholder="password"
                               value={password}
                               onChangeText={setPassword}
@@ -147,19 +169,18 @@ const styles = StyleSheet.create({
       },
 
       button: {
-            height: 50,
-            width: 100,
-            backgroundColor: '#B57EDC',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 10,
             margin: 20,
+            backgroundColor: '#B57EDC',
+            paddingVertical: 12,
+            paddingHorizontal: 30,
+            borderRadius: 25,
             alignSelf: 'center',
       },
 
       text: {
             color: 'white',
-            fontSize: 20,
+            fontSize: 26,
+            fontWeight: 'bold',
       },
 
       images: {

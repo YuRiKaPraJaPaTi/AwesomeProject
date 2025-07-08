@@ -5,15 +5,17 @@
  * @format
  */
 
-
-import { SafeAreaView } from 'react-native';
-import Form from './src/components/Form';
+import Form from './src/screens/Form';
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigator from './src/navigation/AppNavigator'
 
 function App() {
   
 
   return (
-    <Form />
+    <NavigationContainer>
+      <AppNavigator />
+    </NavigationContainer>
   );
 }
 
