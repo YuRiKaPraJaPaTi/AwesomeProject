@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native'
+import { StyleSheet, Text, View, TextInput, FlatList} from 'react-native'
 import React, { useState } from 'react'
 import InputText from '../components/InputText'
 import SocialIcon from '../components/SocialIcon';
+import TodoItem from '../components/TodoItem';
+import MyButton from '../components/MyButton';
 
 
-interface Todo {
+export interface Todo {
   id: number;
   task: string;
   completed: boolean;
@@ -29,9 +31,16 @@ const TodoScreen = () => {
     setText('')
   }
 
+  const onToggleComplete = (id:number) => {
+    const updatedTodos = todos.map(todo =>
+    todo.id === id ? { ...todo, completed: !todo.completed } : todo
+  );
+    setTodos(updatedTodos);
+  }
+
   const renderTask = ({ item }: { item: Todo }) => (
     <View style={styles.todoItem}>
-      <Text style={styles.todoText}>{item.task}</Text>
+      <TodoItem todo={item} onToggle={() => onToggleComplete(item.id)} />
     </View>
   )
 
@@ -40,6 +49,8 @@ const TodoScreen = () => {
     <View style={styles.app}>
       
         <Text style={styles.title}>Todo App</Text>
+
+
 
         <View style={styles.inputContainer}>
           <TextInput 
@@ -57,11 +68,19 @@ const TodoScreen = () => {
         />
         </View>
 
+        <View style={styles.mybuttonWrap}>
+          <MyButton label='All Tasks' />
+          
+          <MyButton label='Active Tasks' />
+
+          <MyButton label='Completed Tasks' />
+        </View>
+
         <FlatList
         data={todos}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderTask}
-        contentContainerStyle={styles.todoList}
+        contentContainerStyle={styles.todoListContainer}
       />
       
     </View>
@@ -76,7 +95,7 @@ const styles = StyleSheet.create({
   app: {
     flex: 1,    
     backgroundColor: '#B57EDC',
-    padding: 10,
+    padding: 20,
   },
   title: {
     fontSize: 32,
@@ -100,8 +119,8 @@ const styles = StyleSheet.create({
 
   input: {
     flex: 1,
-    fontSize: 16,
-    color: 'red',
+    fontSize: 20,
+    // color: '#B57EDC',
   },
 
   plusicon: {
@@ -110,14 +129,23 @@ const styles = StyleSheet.create({
     borderBottomEndRadius: 20,
     marginTop: 10,
     marginBottom: 10,
-    backgroundColor: 'red',
+    backgroundColor: '#B57EDC',
   },
 
-  todoList: {
-    paddingBottom: 20,
+  mybuttonWrap: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    // backgroundColor: 'red',
+  },
+
+  todoListContainer: {
+    padding: 20,
+    // backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    gap: 5,
   },
   todoItem: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
     padding: 15,
     borderRadius: 12,
     marginBottom: 10,
