@@ -2,7 +2,7 @@ import { StyleSheet, TextInput, View, Image, TouchableOpacity, Text } from 'reac
 import React from 'react'
 
 interface props {
-  iconSource: any;
+  iconSource?: any;
   placeholder: string;
   value: string;
   onChangeText: (text: string) => void;
