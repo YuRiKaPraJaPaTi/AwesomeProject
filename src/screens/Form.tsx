@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons';
 
-import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
-import { SafeAreaView } from 'react-native';
+import { StyleSheet, View, SafeAreaView, Text, Image,  TouchableOpacity, KeyboardAvoidingView, ScrollView} from 'react-native';
 import SocialIcon from '../components/SocialIcon';
 import InputText from '../components/InputText';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 
 type FormNavigationProps = NativeStackNavigationProp<RootStackParamList, 'Form'>;
 
@@ -53,95 +53,140 @@ const Form = () => {
       };
 
       return (
-            <SafeAreaView style={styles.container}>
-
-                  <View style={styles.main}>
-                         <TouchableOpacity>
+            <View style={styles.container}>
+                  {/* Top Image Section */}
+                  <View style={styles.topSection}>
+                        <Image
+                        source={require('../../assets/backgroundImage.jpg')}
+                        style={styles.topImage}
+                        resizeMode="cover"
+                        />
+                        <TouchableOpacity 
+                              onPress={()=>navigation.goBack()}
+                              style={styles.backArrow} >
                               <SocialIcon 
-                                    source={require('../../assets/left-chevron.png')}
-                                    size={20}
-                                    onPress={()=>navigation.goBack()}
+                                    source={require('../../assets/left-chevron.png')} 
+                                    size={30}
                               />
-                         </TouchableOpacity>
-
-                        <Text style={styles.title}>{isLogin ? 'LogIn' : 'Sign Up'}</Text>
-
-                        <Text style={styles.signUp}>
-                              {isLogin ? 'Donot have an account? ' : 'Already have an account! '}
-                              <Text style={styles.signUpLink} onPress={handleToggle}>
-                                    {isLogin ? 'Sign Up' : 'LogIn'}
-                              </Text>
-                        </Text>
                         
-                        <InputText
-                              iconSource={require('../../assets/username.png')}
-                              placeholder="username"
-                              value={username}
-                              onChangeText={setUsername}
-                        />
-
-                        <InputText
-                              iconSource={require('../../assets/email.png')}
-                              placeholder="email"
-                              value={email}
-                              onChangeText={setEmail}
-                        />
-
-                        <InputText
-                              iconSource={require('../../assets/password.png')}
-                              placeholder="password"
-                              value={password}
-                              onChangeText={setPassword}
-                              secureTextEntry={!isPasswordVisible}
-                              onIconPress={togglePasswordVisibility}
-                        />
-
-                              
-                        {isLogin && (
-                              <Text style={styles.forgotPassword}>Forgot Password?</Text>
-                        )}
-                        
-                        
-                        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                              <Text style={styles.text}>{isLogin ? 'LogIn' : 'Sign Up'}</Text>
                         </TouchableOpacity>
-
-
-                        <View style={styles.images}>
-
-                              <SocialIcon
-                                    source={require('../../assets/fb-image.png')}
-                                    onPress={()=>console.log('FaceBook')}
-                              />
-
-                              <SocialIcon
-                                    source={require('../../assets/google-image.png')}
-                                    onPress={()=>console.log('Google')}
-                              />
-
-                              <SocialIcon
-                                    source={require('../../assets/x-image.jpg')}
-                                    onPress={()=>console.log('X Twitter')}
-                              />
-
-                        </View>
-            
                   </View>
-            </SafeAreaView>
+
+                  {/* Bottom Form Section */}
+
+                  <SafeAreaView style={styles.bottomSection}>
+                        <KeyboardAvoidingView
+                              style={{flex:1}}
+                              keyboardVerticalOffset={60}
+                        >
+
+                        <ScrollView
+                              contentContainerStyle={styles.scrollContainer}
+                              keyboardShouldPersistTaps="handled"
+                        >
+                              
+
+                              <Text style={styles.title}>{isLogin ? 'LogIn' : 'Sign Up'}</Text>
+
+                              <Text style={styles.signUp}>
+                                    {isLogin ? 'Donot have an account? ' : 'Already have an account! '}
+                                    <Text style={styles.signUpLink} onPress={handleToggle}>
+                                          {isLogin ? 'Sign Up' : 'LogIn'}
+                                    </Text>
+                              </Text>
+                              
+                              <InputText
+                                    iconSource={require('../../assets/username.png')}
+                                    placeholder="username"
+                                    value={username}
+                                    onChangeText={setUsername}
+                              />
+
+                              <InputText
+                                    iconSource={require('../../assets/email.png')}
+                                    placeholder="email"
+                                    value={email}
+                                    onChangeText={setEmail}
+                              />
+
+                              <InputText
+                                    iconSource={require('../../assets/password.png')}
+                                    placeholder="password"
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    secureTextEntry={!isPasswordVisible}
+                                    onIconPress={togglePasswordVisibility}
+                              />
+
+                                    
+                              {isLogin && (
+                                    <Text style={styles.forgotPassword}>Forgot Password?</Text>
+                              )}
+                              
+                              
+                              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                                    <Text style={styles.text}>{isLogin ? 'LogIn' : 'Sign Up'}</Text>
+                              </TouchableOpacity>
+
+                              <Text style={{alignSelf:'center', fontSize:20, fontWeight:'bold'}}>OR</Text>
+                              <View style={styles.images}>
+
+                                    <SocialIcon
+                                          source={require('../../assets/fb-image.png')}
+                                          onPress={()=>console.log('FaceBook')}
+                                    />
+
+                                    <SocialIcon
+                                          source={require('../../assets/google-image.png')}
+                                          onPress={()=>console.log('Google')}
+                                    />
+
+                                    <SocialIcon
+                                          source={require('../../assets/x-image.jpg')}
+                                          onPress={()=>console.log('X Twitter')}
+                                    />
+
+                              </View>
+                        </ScrollView>
+                        </KeyboardAvoidingView>
+                  </SafeAreaView>
+            </View>
       )
 }
 
 const styles = StyleSheet.create({
-       container: {
+      container: {
             flex: 1,
-            justifyContent: 'center',
-            marginHorizontal: 6,
             backgroundColor: 'white',
-            },
-
-      main: {
-            margin: 20,
-            padding: 10,
+      },
+      topSection: {
+            height: 250,
+            position: 'relative',
+      },
+      topImage: {
+            width: '100%',
+            height: '100%',
+      },
+      backArrow: {
+            position: 'absolute',
+            top: 40,
+            left: 16,
+            backgroundColor: '#B57EDC',
+            padding: 6,
+            borderRadius: 20,
+      },
+      bottomSection: {
+            flex: 1,
+            backgroundColor: 'white',
+            padding: 32,
+            borderTopLeftRadius: 50,
+            borderTopRightRadius: 50,
+            marginTop: -50, 
+      },
+      
+      scrollContainer: {
+            padding: 20,
+            justifyContent: 'center',
       },
 
       title: {
@@ -149,12 +194,14 @@ const styles = StyleSheet.create({
             fontSize: 50,
             color: 'black',
             marginBottom: 20,
+            fontWeight: 'bold',
+            textAlign: 'center',
       
       },
 
       signUp: {
             color: '#000',
-            marginBottom: 50,
+            marginBottom: 30,
       },
 
       signUpLink: {
@@ -163,13 +210,13 @@ const styles = StyleSheet.create({
       },
 
       forgotPassword: {
-            alignSelf: 'center',
+            // alignSelf: 'center',
             color: '#B57EDC',
       
       },
 
       button: {
-            margin: 20,
+            margin: 10,
             backgroundColor: '#B57EDC',
             paddingVertical: 12,
             paddingHorizontal: 30,
@@ -184,11 +231,15 @@ const styles = StyleSheet.create({
       },
 
       images: {
+            marginTop: 10,
             display: 'flex',
             flexDirection: 'row',
             gap: 30,
             justifyContent: 'center',
       },
+
+
+      
 
 });
 

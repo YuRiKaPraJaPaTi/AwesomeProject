@@ -24,6 +24,7 @@ const InputText = ({iconSource, placeholder, value, onChangeText, secureTextEntr
               value={value}
               onChangeText={onChangeText}
               secureTextEntry={secureTextEntry}
+              
           />
                   
           {secureTextEntry !== undefined && (
@@ -49,6 +50,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 10,
     marginBottom: 20,
+    shadowColor: 'purple',
+    shadowOffset: { width: 8, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 5,
   },
 
    icon: {
