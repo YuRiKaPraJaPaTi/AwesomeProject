@@ -11,11 +11,11 @@ import { Todo } from '../screens/TodoScreen';
 
 export type RootStackParamList = {
   Welcome: undefined;
-  Form: undefined;
+  // Form: undefined;
   Login: undefined;
   Signup: undefined;
   Todo: undefined;
-  AllTask: {todos: Todo[], deleteTodo: (id:number)=>void}
+  AllTask: {todos: Todo[], deleteTodo: (id:number)=>void, onToggleComplete: (id:number)=>void}
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -24,7 +24,7 @@ const AppNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Welcome">
       <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Form" component={Form} options={{ headerShown: false }} />
+      {/* <Stack.Screen name="Form" component={Form} options={{ headerShown: false }} /> */}
       <Stack.Screen name="Todo" component={TodoScreen} />
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />

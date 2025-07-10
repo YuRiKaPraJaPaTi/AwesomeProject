@@ -13,7 +13,8 @@ interface TodoItemProps {
 
 const TodoItem = ({todo, onToggle, onDelete}: TodoItemProps) => {
   return (
-    <View style={styles.container}>
+      <View style={styles.outerContainer}>
+            <View style={styles.todoItem}>
             <MyCheckbox completed={todo.completed} onToggle={onToggle} />
             
             <View style={styles.textContainer}>
@@ -36,19 +37,27 @@ const TodoItem = ({todo, onToggle, onDelete}: TodoItemProps) => {
                         onPress={onDelete}
                   />
             </View>
-    </View>
+      </View>
+      </View>
   )
 }
 
 export default TodoItem
 
 const styles = StyleSheet.create({
-      container: {
-            flex: 1,
-            gap: 7,
+      outerContainer: {
+            padding: 20,
+            // backgroundColor: 'rgba(0, 0, 0, 0.4)',
+            gap: 5,
+      },
+      todoItem: {
             flexDirection: 'row',
-            alignItems: 'flex-start',
             // backgroundColor: 'red',
+            backgroundColor: 'rgba(255, 255, 255, 0.4)',
+            padding: 15,
+            borderRadius: 12,
+            marginBottom: 10,
+            
       },
 
       textContainer: {

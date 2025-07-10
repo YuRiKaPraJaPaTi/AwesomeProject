@@ -7,6 +7,7 @@ import MyButton from '../components/MyButton';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import TodoListDisplay from '../components/TodoListDisplay';
 
 
 export interface Todo {
@@ -48,23 +49,13 @@ const TodoScreen = () => {
     setTodos(prev => prev.filter(todo => todo.id !== id))
   }
 
-  const renderTask = ({ item }: { item: Todo }) => (
-    <View style={styles.todoItem}>
-      <TodoItem 
-        todo={item} 
-        onToggle={() => onToggleComplete(item.id)} 
-        onDelete={() => deleteTodo(item.id)}
-      />
-    </View>
-  )
+
 
 
   return (
     <View style={styles.app}>
       
         <Text style={styles.title}>Task Master</Text>
-
-
 
         <View style={styles.inputContainer}>
           <TextInput 
@@ -83,18 +74,17 @@ const TodoScreen = () => {
         </View>
 
         <View style={styles.mybuttonWrap}>
-          <MyButton label='All Tasks' onPress={()=>navigation.navigate('AllTask', {todos, deleteTodo})}/>
+          <MyButton label='All Tasks' onPress={()=>navigation.navigate('AllTask', {todos, deleteTodo, onToggleComplete})}/>
           
           <MyButton label='Active Tasks' />
 
           <MyButton label='Completed Tasks' />
         </View>
 
-        <FlatList
-        data={todos}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderTask}
-        contentContainerStyle={styles.todoListContainer}
+      <TodoListDisplay 
+        todos={todos}
+        onToggle={onToggleComplete}
+        onDelete={deleteTodo}
       />
       
     </View>
@@ -152,24 +142,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // backgroundColor: 'red',
   },
-
-  todoListContainer: {
-    padding: 20,
-    // backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    gap: 5,
-  },
-  todoItem: {
-    // backgroundColor: '#fff',
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
-    padding: 15,
-    borderRadius: 12,
-    marginBottom: 10,
-  },
-  todoText: {
-    fontSize: 18,
-    color: '#333',
-  },
-
-  
 
 })

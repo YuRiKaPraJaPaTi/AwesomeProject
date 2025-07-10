@@ -8,24 +8,27 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import MyImageBackground from '../components/MyImageBackground';
 
 
-type FormNavigationProps = NativeStackNavigationProp<RootStackParamList, 'Form'>;
+// type FormNavigationProps = NativeStackNavigationProp<RootStackParamList, 'Form'>;
 
-const Form = () => {
-      const [isLogin, setIsLogin] = useState(true)
-      const [username, setUsername] = useState('');
-      const [email, setEmail] = useState('');
-      const [password, setPassword] = useState('');
+interface FormProps {
+      title: string;
+      buttonLabel: string;
+      showUsernameField?: boolean;
+      onSubmit: (form: FormValues)=>void;
+      onToggleForm: ()=>void;
+}
+
+export interface FormValues {
+      username?: string;
+      email: string;
+      password: string;
+}
+
+const Form = ({title, buttonLabel, showUsernameField, onSubmit, onToggleForm} : FormProps) => {
+      const [form, setForm] = useState<FormValues>({email: '', password: '', username: ''})
       const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-      const navigation = useNavigation<FormNavigationProps>();
-
-      const handleToggle = () => {
-            setIsLogin(!isLogin);
-            setUsername('');
-            setEmail('');
-            setPassword('');
-            setIsPasswordVisible(false);
-      };
+      // const navigation = useNavigation<FormNavigationProps>();
 
       const togglePasswordVisibility = () => {
             setIsPasswordVisible(!isPasswordVisible); 
@@ -33,21 +36,8 @@ const Form = () => {
 
       const handleSubmit = () => {
             console.log('Form Submitted:');
-            console.log('Username:',username);
-            console.log('Email:', email);
-            console.log('Password:', password);
-
-            if (isLogin) {
-                  navigation.navigate('Todo')
-            }
-            else {
-                  setIsLogin(true)
-            }
-
-            setUsername('');
-            setEmail('');
-            setPassword(''); 
-            
+            onSubmit(form);
+            setForm({ email: '', password: '', username: '' });
 
       };
 
@@ -61,7 +51,7 @@ const Form = () => {
                         // resizeMode="cover"
                         >
                         <TouchableOpacity 
-                              onPress={()=>navigation.goBack()}
+                              // onPress={()=>navigation.goBack()}
                               style={styles.backArrow} >
                               <SocialIcon 
                                     source={require('../../assets/left-chevron.png')} 
@@ -74,7 +64,7 @@ const Form = () => {
                   </View>
 
                   {/* Bottom Form Section */}
-
+                  
                   <SafeAreaView style={styles.bottomSection}>
                         <KeyboardAvoidingView
                               style={{flex:1}}
@@ -87,46 +77,49 @@ const Form = () => {
                         >
                               
 
-                              <Text style={styles.title}>{isLogin ? 'LogIn' : 'Sign Up'}</Text>
+                              <Text style={styles.title}>
+                                    {title}
+                              </Text>
 
                               <Text style={styles.signUp}>
-                                    {isLogin ? 'Donot have an account? ' : 'Already have an account! '}
-                                    <Text style={styles.signUpLink} onPress={handleToggle}>
-                                          {isLogin ? 'Sign Up' : 'LogIn'}
+                                    {title === 'Login' ? "Don't have an account? " : "Already have an account? "}
+                                    <Text style={styles.signUpLink} onPress={onToggleForm}>
+                                          {title === 'Login' ? 'Sign Up' : 'Login'}
                                     </Text>
                               </Text>
                               
-                              <InputText
+                              {showUsernameField && (
+                                    <InputText
+                                    placeholder="Username"
                                     iconSource={require('../../assets/username.png')}
-                                    placeholder="username"
-                                    value={username}
-                                    onChangeText={setUsername}
-                              />
+                                    value={form.username!}
+                                    onChangeText={(text) => setForm({ ...form, username: text })}
+                                    />
+                              )}
 
                               <InputText
                                     iconSource={require('../../assets/email.png')}
                                     placeholder="email"
-                                    value={email}
-                                    onChangeText={setEmail}
+                                    value={form.email}
+                                    onChangeText={(text) => setForm({ ...form, email: text })}
                               />
 
                               <InputText
                                     iconSource={require('../../assets/password.png')}
                                     placeholder="password"
-                                    value={password}
-                                    onChangeText={setPassword}
+                                    value={form.password}
+                                    onChangeText={(text) => setForm({ ...form, password: text })}
                                     secureTextEntry={!isPasswordVisible}
                                     onIconPress={togglePasswordVisibility}
                               />
 
                                     
-                              {isLogin && (
-                                    <Text style={styles.forgotPassword}>Forgot Password?</Text>
-                              )}
                               
+                              <Text style={styles.forgotPassword}>Forgot Password?</Text>
+                                                          
                               
                               <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                                    <Text style={styles.text}>{isLogin ? 'LogIn' : 'Sign Up'}</Text>
+                                    <Text style={styles.text}>{buttonLabel}</Text>
                               </TouchableOpacity>
 
                               <Text style={{alignSelf:'center', fontSize:20, fontWeight:'bold'}}>OR</Text>
