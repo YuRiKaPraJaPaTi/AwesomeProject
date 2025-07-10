@@ -10,7 +10,7 @@ import MyImageBackground from '../components/MyImageBackground';
 
 type FormNavigationProps = NativeStackNavigationProp<RootStackParamList, 'Form'>;
 
-const Form = () => {
+const SignupScreen = () => {
       const [isLogin, setIsLogin] = useState(true)
       const [username, setUsername] = useState('');
       const [email, setEmail] = useState('');
@@ -20,11 +20,7 @@ const Form = () => {
       const navigation = useNavigation<FormNavigationProps>();
 
       const handleToggle = () => {
-            setIsLogin(!isLogin);
-            setUsername('');
-            setEmail('');
-            setPassword('');
-            setIsPasswordVisible(false);
+            navigation.navigate('Login')
       };
 
       const togglePasswordVisibility = () => {
@@ -37,12 +33,9 @@ const Form = () => {
             console.log('Email:', email);
             console.log('Password:', password);
 
-            if (isLogin) {
-                  navigation.navigate('Todo')
-            }
-            else {
-                  setIsLogin(true)
-            }
+            
+            navigation.navigate('Login')
+            
 
             setUsername('');
             setEmail('');
@@ -87,12 +80,12 @@ const Form = () => {
                         >
                               
 
-                              <Text style={styles.title}>{isLogin ? 'LogIn' : 'Sign Up'}</Text>
+                              <Text style={styles.title}>Sign Up</Text>
 
                               <Text style={styles.signUp}>
-                                    {isLogin ? 'Donot have an account? ' : 'Already have an account! '}
+                                    Alreadyt have an account
                                     <Text style={styles.signUpLink} onPress={handleToggle}>
-                                          {isLogin ? 'Sign Up' : 'LogIn'}
+                                          LogIn
                                     </Text>
                               </Text>
                               
@@ -120,13 +113,8 @@ const Form = () => {
                               />
 
                                     
-                              {isLogin && (
-                                    <Text style={styles.forgotPassword}>Forgot Password?</Text>
-                              )}
-                              
-                              
                               <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                                    <Text style={styles.text}>{isLogin ? 'LogIn' : 'Sign Up'}</Text>
+                                    <Text style={styles.text}>SignUp</Text>
                               </TouchableOpacity>
 
                               <Text style={{alignSelf:'center', fontSize:20, fontWeight:'bold'}}>OR</Text>
@@ -241,4 +229,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Form
+export default SignupScreen

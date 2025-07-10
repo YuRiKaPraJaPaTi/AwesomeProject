@@ -6,11 +6,12 @@ import SocialIcon from './SocialIcon'
 
 interface TodoItemProps {
       todo: Todo;
-      onToggle: ()=>void;
+      onToggle?: ()=>void;
+      onDelete?: ()=>void
 }
 
 
-const TodoItem = ({todo, onToggle}: TodoItemProps) => {
+const TodoItem = ({todo, onToggle, onDelete}: TodoItemProps) => {
   return (
     <View style={styles.container}>
             <MyCheckbox completed={todo.completed} onToggle={onToggle} />
@@ -32,6 +33,7 @@ const TodoItem = ({todo, onToggle}: TodoItemProps) => {
                   <SocialIcon 
                         source={require('../../assets/delete.png')}
                         size={22}
+                        onPress={onDelete}
                   />
             </View>
     </View>
@@ -65,6 +67,7 @@ const styles = StyleSheet.create({
       },
       iconContainer: {
             flexDirection: 'row',
+            gap:10,
             alignItems: 'center',
       },
 })

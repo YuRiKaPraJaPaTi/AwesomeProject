@@ -4,6 +4,9 @@ import InputText from '../components/InputText'
 import SocialIcon from '../components/SocialIcon';
 import TodoItem from '../components/TodoItem';
 import MyButton from '../components/MyButton';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/AppNavigator';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 
 export interface Todo {
@@ -12,8 +15,11 @@ export interface Todo {
   completed: boolean;
 }
 
+type TodoScreenNavigationProps = NativeStackNavigationProp<RootStackParamList, 'Todo'>;
+
 
 const TodoScreen = () => {
+  const navigation = useNavigation<TodoScreenNavigationProps>();
 
   const [todos, setTodos] = useState<Todo[]>([])
   const [text, setText] = useState<string>('')
@@ -38,9 +44,17 @@ const TodoScreen = () => {
     setTodos(updatedTodos);
   }
 
+  const deleteTodo = (id: number) => {
+    setTodos(prev => prev.filter(todo => todo.id !== id))
+  }
+
   const renderTask = ({ item }: { item: Todo }) => (
     <View style={styles.todoItem}>
-      <TodoItem todo={item} onToggle={() => onToggleComplete(item.id)} />
+      <TodoItem 
+        todo={item} 
+        onToggle={() => onToggleComplete(item.id)} 
+        onDelete={() => deleteTodo(item.id)}
+      />
     </View>
   )
 
@@ -48,7 +62,7 @@ const TodoScreen = () => {
   return (
     <View style={styles.app}>
       
-        <Text style={styles.title}>Todo App</Text>
+        <Text style={styles.title}>Task Master</Text>
 
 
 
@@ -69,7 +83,7 @@ const TodoScreen = () => {
         </View>
 
         <View style={styles.mybuttonWrap}>
-          <MyButton label='All Tasks' />
+          <MyButton label='All Tasks' onPress={()=>navigation.navigate('AllTask', {todos, deleteTodo})}/>
           
           <MyButton label='Active Tasks' />
 
@@ -100,6 +114,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     alignSelf: 'center',
+    marginBottom: 10,
   },
   inputContainer: {
     flexDirection: 'row',

@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator'; 
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ImageBackground } from 'react-native';
+import MyImageBackground from '../components/MyImageBackground';
 
 
 type WelcomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Welcome'>;
@@ -13,12 +13,11 @@ const WelcomeScreen = () => {
   const navigation = useNavigation<WelcomeScreenNavigationProp>();
 
   return (
-      <SafeAreaView style={styles.container}>
+      
             
-            <ImageBackground
+            <MyImageBackground
                   source={require('../../assets/backgroundImage.jpg')}
-                  style={styles.background}
-                  resizeMode="cover"
+                  
             >
                   
                   <View style={styles.main}>
@@ -33,7 +32,7 @@ const WelcomeScreen = () => {
                               />
                         </View>
                         
-                        <TouchableOpacity style={styles.getStartedButton} onPress={() => navigation.navigate('Form')}>
+                        <TouchableOpacity style={styles.getStartedButton} onPress={() => navigation.navigate('Login')}>
                               <Text style={styles.getStartedButtonText}>Get Started</Text>
                         </TouchableOpacity>
 
@@ -47,28 +46,21 @@ const WelcomeScreen = () => {
 
                   </View>
 
-            </ImageBackground>
+            </MyImageBackground>
 
-      </SafeAreaView>
+      
   );
 };
 
 export default WelcomeScreen;
 
 const styles = StyleSheet.create({
-      container: {
-            flex: 1,
-            // backgroundColor: '#B57EDC',
-      },
+      
 
-       background: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-      },
+       
 
       main: {
-            flex:1,
+            // flex:1,
             marginTop: 16,
             marginBottom: 16,
             backgroundColor: 'rgba(0, 0, 0, 0.4)', 
@@ -76,7 +68,7 @@ const styles = StyleSheet.create({
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
-            gap: 20,
+            gap: 30,
       },
 
       titleText: {
