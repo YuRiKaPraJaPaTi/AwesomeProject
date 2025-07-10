@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import TodoListDisplay from '../components/TodoListDisplay';
+import MyImageBackground from '../components/MyImageBackground';
 
 
 export interface Todo {
@@ -53,9 +54,12 @@ const TodoScreen = () => {
 
 
   return (
-    <View style={styles.app}>
-      
-        <Text style={styles.title}>Task Master</Text>
+    
+      <MyImageBackground source={require('../../assets/todobg.jpg')}  >
+      <View style={styles.app}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Task Master</Text>
+        </View>
 
         <View style={styles.inputContainer}>
           <TextInput 
@@ -76,7 +80,7 @@ const TodoScreen = () => {
         <View style={styles.mybuttonWrap}>
           <MyButton label='All Tasks' onPress={()=>navigation.navigate('AllTask', {todos, deleteTodo, onToggleComplete})}/>
           
-          <MyButton label='Active Tasks' />
+          <MyButton label='Active Tasks' onPress={()=>navigation.navigate('ActiveTask', {todos, deleteTodo, onToggleComplete})}/>
 
           <MyButton label='Completed Tasks' />
         </View>
@@ -86,8 +90,9 @@ const TodoScreen = () => {
         onToggle={onToggleComplete}
         onDelete={deleteTodo}
       />
-      
-    </View>
+      </View>
+    </MyImageBackground>
+    
 
     
   )
@@ -98,8 +103,23 @@ export default TodoScreen
 const styles = StyleSheet.create({
   app: {
     flex: 1,    
-    backgroundColor: '#B57EDC',
+    // backgroundColor: '#B57EDC',
     padding: 20,
+    
+    width: '100%',
+    justifyContent: 'flex-start',
+  },
+  header: {
+    backgroundColor: '#5b86e5', 
+    padding: 20,
+    borderRadius: 15,
+    alignItems: 'center',
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 6,
   },
   title: {
     fontSize: 32,

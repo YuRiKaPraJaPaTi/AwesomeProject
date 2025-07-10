@@ -4,18 +4,21 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import TodoListDisplay from '../components/TodoListDisplay';
 
-type AllTaskRouteProp = RouteProp<RootStackParamList, 'AllTask'>
+type ActiveTaskRouteProp = RouteProp<RootStackParamList, 'ActiveTask'>
 
-const AllTaskScreen = () => {
-  const route = useRoute<AllTaskRouteProp>();
+const ActiveTaskScreen = () => {
+  const route = useRoute<ActiveTaskRouteProp>();
   const { todos, deleteTodo, onToggleComplete } = route.params;
+  const activeTodos = todos.filter((todo) => !todo.completed);
 
   return (
+      
+
     <View>
-      <Text>All Tasks</Text>
+      <Text>Active Tasks</Text>
       
       <TodoListDisplay 
-        todos={todos}
+        todos={activeTodos}
         onDelete={deleteTodo}
         onToggle={onToggleComplete}
       />
@@ -23,7 +26,7 @@ const AllTaskScreen = () => {
   )
 }
 
-export default AllTaskScreen
+export default ActiveTaskScreen
 
 const styles = StyleSheet.create({
     
